@@ -12,7 +12,7 @@ Remember, functions are objects in JacaScript, they have properties and shit, li
 the length property, that is the number of arguments that one function expects.
 
 The arguments[] can be pretty handy some times, below I'm gonna do a function
-takes whatever numbers you and to add, and returns the sum of those numbers.
+takes whatever numbers you wand to add, and returns the sum of those.
 */
 
 var sum = function(x, y){
