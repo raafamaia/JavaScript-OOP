@@ -74,7 +74,7 @@ sayMyName.apply(randomPerson, [randomPerson.name]);
 console.log("\n---------------------------THE BIND METHOD------------------------------------\n");
 
 /* This one behaves quite differently than the other two methods.
-The bind() method takes as the first argument the "this" valuefor the new 
+The bind() method takes as the first argument the "this" valuefor the new
 function, all other parameters represent named parameters that should be
 permanently set in the new function. You can still pass wharever you want later.
 */
@@ -102,7 +102,7 @@ var sayYourNameBigOne = sayMyName.bind(person2, "Hey, I'm the person2 object"
 + "\n(and I just passed this message on the bind() method, see?... oh, My name is");
 sayYourNameBigOne();
 
-//Now the methods are binded with the objects, even if I attach the method with 
+//Now the methods are binded with the objects, even if I attach the method with
 //another object, the "this wont't change"
 
 var person3 = {
