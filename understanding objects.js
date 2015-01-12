@@ -135,7 +135,7 @@ console.log("toString" in person1); // -> true
 //The toString() method is a prototype property, so...
 console.log(person1.hasOwnProperty("toString")); // -> false
 
-/* 
+/*
 Oh, I get it the prototype property
 Every object has the toString method, so it's a prototype property...
 hasOwnProperty() must be too, lemme see
@@ -145,6 +145,38 @@ console.log("hasOwnProperty" in person1); // -> true
 console.log(person1.hasOwnProperty("hasOwnProperty"))// -> false
 
 //Yup
+
+console.log("\n----------------------- REMOVING PROPERTIES -----------------------\n");
+
+person1["I Don't Need This Property"] = "But I'm here";
+console.log(person1["I Don't Need This Property"]);
+/*
+Oh, I hate this property, it's useless and the name, ugh... How can
+I remove it?
+Oh, I can put it equals to "null", YEAH! NAILED IT
+*/
+
+person1["I Don't Need This Property"] = null;
+console.log("I Don't Need This Property" in person1); // -> true
+
+/*
+Freaking noobs man, this is not deleting a property.
+You're just calling the method [[Set]] with the null value.
+You need to use the "delete" operator to completely remove a property
+from an object.
+
+The "delete" object works on a single object property and calls an internal
+operation named [[Delete]]. You can think of this operation as removing a key/value
+pair from a hash table. When the delete operator is successful, it returns true.
+(Some properties can't be removed, we'll talk about it later on)
+*/
+
+delete person1["I Don't Need This Property"];
+console.log("I Don't Need This Property" in person1); // -> false
+console.log(person1["I Don't Need This Property"]); // -> undefined
+
+// Now it's gone.
+
 
 
 
