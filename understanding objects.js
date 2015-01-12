@@ -177,6 +177,119 @@ console.log(person1["I Don't Need This Property"]); // -> undefined
 
 // Now it's gone.
 
+console.log("\n----------------------- ENUMERATION -----------------------\n");
+
+/*
+By default, all properties that you add to an object are enumerable, which means
+that you can itaerate over them using a for-in loop.
+(I Really didn't know 'bout this)
+
+The for-in loop (pretty much the same old foreach) enumerates all enumerable
+properties on an object, assigning the property name to a variable.
+
+Lemme show you:
+*/
+
+var property;
+
+var object = {
+	name: "Book",
+	type: "Entertainment"
+}
+
+/*The "for(var property in object){" works fine, you don't need to create the
+property before, probably some performance best practice */
+for(property in object){
+	console.log("Name: " + property);
+	console.log("Value: " + object[property]);
+}
+
+/*
+--------------------------------Reflection Time--------------------------------
+Not sure why I can't access the property with the dot notation, I had
+to use brackets
+
+console.log("Value: " + object.property); -> Don't work, prints undefined, am I
+Missing something?
+
+Oh, I'm just dumb, sure you need to use the [] notation, the brackets notation
+accepts an string, you can pass any variable with an string to call the property
+Trying to use the dot notation here is something like:
+
+var varNname = "name";
+console.log(object.varName);
+
+Kinda dumb huh? Sorry, but didn't take me long to figure it out, I swear.
+-------------------------------------------------------------------------------
+*/
+
+/*
+Just an overview:
+We're going through the for-in loop and the property variable
+is filled with the next enumarable property on the object until all properties have
+been used.
+
+Now, if you need a list of object's orpperties to use later in your program,
+ECMAScript5 (Gonna read about this in a minute) introduced the Objects.keys() method
+to retrieve an array of enumerable property names, as shown here:
+*/
+
+var properties = Object.keys(object);
+console.log(properties); // -> [ 'name', 'type' ]
+
+// Now I'm gonna mimic the for-in behavior
+
+var i , len;
+console.log("\nMimic Time!\n");
+for(i = 0, len = properties.length; i < len; ++i){
+	console.log("Name: " + properties[i]);
+	console.log("Value: " + object[properties[i]]);
+}
+
+/*
+Typically, you would use Object.keys() in situations where you want to operate
+on an array of property names and for-in when you don’t need an array.
+
+----> BEHIND THE SCENES <----
+
+There's a difference between the enumerable properties returned in a for-in loop
+and the ones returned by Object.keys(). The for-in loop also enumerates prototype
+properties, while Object.keys() returns only own properties.
+
+But keep in mind, that not all properties are enumerable. In fact, most of the
+native methods on objects have their [[Enumerable]] attribute set to false. You
+can check whether a property is enumerable by using the propertyIsEnumerable()
+method (Those guys aced naming methods huh), which is present on every object:
+*/
+
+var person1 = {
+	name: "Nicholas"
+};
+
+console.log("name" in person1); // -> true
+console.log(person1.propertyIsEnumerable("name")); //-> true
+
+var properties = Object.keys(person1);
+
+console.log("length" in properties); // -> true
+console.log(properties.propertyIsEnumerable("length")); // -> false
+
+/*
+See? Typically just custom properties are enumerable.
+The length are a build-in property on Array.prototype.
+*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
