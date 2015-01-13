@@ -279,6 +279,89 @@ See? Typically just custom properties are enumerable.
 The length are a build-in property on Array.prototype.
 */
 
+console.log("\n----------------------- PROPERTY ATTRIBUTES -----------------------\n");
+
+/*
+Prior to ECMAScript5... HOLD ON
+
+--> Straight Outta Wiki <--
+
+ECMAScript is the scripting language standardized by Ecma International in the
+ECMA-262 specification and ISO/IEC 16262. The language is widely used for
+client-side scripting on the web, in the form of several well-known
+implementations such as JavaScript, JScript and ActionScript.
+
+Now, back to business.
+
+Prior to ECMAScript5, there was no way specify whether a property should be enumerable.
+In fact, there was no way to access the internal attributes of a property at all.
+ECMAScript 5 changed this by introducing several ways of interacting with property
+attributes directly, as well as introducing new attributes to support additional
+functionality. It's now possible to create properties that behave the same way
+as built-in JavaScript properties.
+
+Okay okay, so attributes have properties and methods as well, like [[Set]],
+[[Enumerable]] and shit.
+
+	• Common Attributes
+
+	There are two property attributes shared between data and accessor properties.
+	One is [[Enumerable]], which determines whether you can iterate over the property.
+	The other is [[Configurable]], wich determines whether the property can be changed.
+
+	You can remove a configurable property using delete and can change it's attributes
+	at any time. (This also means configurable properties can be changed from data
+	to accessor properties and vice versa).
+
+	If you want to change property attributes, you can use the Object.defineProperty()
+	method. This method accepts three arguments: the object that owns the property, the
+	property name, and a property descriptor object containing the attributes to set.
+	The descriptor has properties with the same name as the internal attributes, but without
+	the square brackets.
+	*/
+
+var person1 = {
+	name: "Nicholas"
+};
+
+var properties = Object.keys(person1);
+console.log(properties); // -> [ 'name' ]
+
+Object.defineProperty(person1, "name", {
+	enumerable: false
+});
+
+console.log("name" in person1);
+console.log(person1.propertyIsEnumerable("name"));
+//The Objects.keys() method can't get the properties that the [[Enumerable]] is
+//set to false
+var properties = Object.keys(person1);
+console.log(properties);
+
+//Now, gonna mess with the [[Configurable]] property
+
+Object.defineProperty(person1, "name", {
+	configurable: false
+});
+
+//Now try to delete the property, I dare you, I double dare you motherfucker
+
+var worked = delete person1.name;
+console.log(worked); //-> false
+
+Object.defineProperty(person1, "name", {
+	configurable: true
+}); // -> ERROR!
+
+/* Yes sir, if you do "configurable: false", there's no turning back, the
+property is officialy locked down as a property on person1
+
+Note: When JavaScript is running in strict mode, attempting to delete a
+nonconfigurable property results in an error. In nonstrict mode, the operation
+silently fails.*/
+
+
+
 
 
 
