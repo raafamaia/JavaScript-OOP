@@ -349,9 +349,9 @@ Object.defineProperty(person1, "name", {
 var worked = delete person1.name;
 console.log(worked); //-> false
 
-Object.defineProperty(person1, "name", {
-	configurable: true
-}); // -> ERROR!
+console.log("\nObject.defineProperty(person1, 'name', {\n" +
+	"\tconfigurable: true\n" +
+"}); // -> ERROR!")
 
 /* Yes sir, if you do "configurable: false", there's no turning back, the
 property is officialy locked down as a property on person1
@@ -359,6 +359,73 @@ property is officialy locked down as a property on person1
 Note: When JavaScript is running in strict mode, attempting to delete a
 nonconfigurable property results in an error. In nonstrict mode, the operation
 silently fails.*/
+
+/*
+Now, lets talk about Data Property Attributes.
+
+So, Data Properties posses two additional attirbutes that accessors do not.
+The first one is the [[Value]], which holds the property value, even if the
+value is a function.
+The second one is called [[Writable]], which is a Boolean value indicating
+whether the property can be written to. By default, all orpperties are writable
+unless you specify otherwise.
+With these two bad boys, you can fully define data property using
+Object.defineProperty() even if the property doesn's already exist.
+Look this shit:
+*/
+
+var person1 = {};
+
+Object.defineProperty(person1, "name",{
+	value: "Nicholas",
+	enumerable: true,
+	configurable: true,
+	writable: true
+});
+
+console.log(person1.name); // -> Nicholas
+
+/*
+See? When Object.defineProperty() is called, it will check to see if the property
+even exists, if not, a new one is added with the attributes specified in the
+descriptos, just like that, bang.
+
+Now, something important.
+I said something about default values right? It doesn't apply to properties that are
+create with Objects.defineProperty(). The default behavior of the
+Objects.defineProperty() is the following: Boolean attributes will automatically
+be set to false.
+For example, the following code creates a name property that is nonenumerable,
+nonconfigurable and nonwritable because it doesn't explicitly make any of those
+attributes true. (Yeah, you must keep that in mind)
+*/
+
+var person1 = {};
+
+Object.defineProperty(person1, "name", {
+	value: "I'm fucked up"
+});
+
+console.log("name" in person1); // -> true
+console.log(person1.propertyIsEnumerable("name")); // -> false
+
+var result = delete person1.name;
+console.log(result); // -> false
+
+person1.name = "Bill";
+console.log(person1.name); // -> I'm fucked up
+
+/*
+See? I can't do shit
+
+Note: Nonwriteble properties throw an error in strict mode when you try to change
+the value.
+*/
+
+
+
+
+
 
 
 
