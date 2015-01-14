@@ -573,6 +573,32 @@ you can even change existing properties and create new one at the same time.
 The effect is the same as calling Object.defineProperty multiple times.
 */
 
+/*
+Now, let's retrieve some property attributes.
+
+If you need to fetch property attributes, you can do so in JavaScript by using the
+Object.getOwnPropertyDescriptor(). As the name suggests, this method works only
+on own properties (duh!).
+This method accepts two arguments: the object to work on and the property name to
+retrieve. If the property exists, you should recieve a descriptor object with four
+properties: Two commom properties [[Configurable]] and [[Enumerable]] and other two,
+appropriate for the type of property.
+Even if you didn't specifically set an attribute, you will still recieve an object
+containing the appropriate value for that attribute.
+Example time:
+*/
+
+var person1 = {
+	name: "Nicholas"
+};
+
+var descriptor = Object.getOwnPropertyDescriptor(person1, "name");
+
+console.log(descriptor); /* ->
+{ value: 'Nicholas',
+  writable: true,
+  enumerable: true,
+  configurable: true } */
 
 
 
