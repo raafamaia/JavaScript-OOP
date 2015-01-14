@@ -484,6 +484,11 @@ Object.defineProperty(person1, "name", {
 console.log(person1.name); //-> Reading name \n Nicholas
 person1.name = "Alfred"; // -> Setting name to Alfred
 
+//Hm, I still can access the property _name directly, no getter and setters validation
+person1._name = "wow";
+console.log(person1._name);
+
+
 /*
 Notice that the get and set keys on the object passed in the Object.defineProperty()
 are data properties that contain a function. You can't use object literal accessor
@@ -525,7 +530,48 @@ Attempting to read an accessor property that has only a setter defined always
 returns undefined.
 */
 
+/*
+Now, if you wanna define multiple properties, don't worry, I got your back
+You can use Object.defineProperties() instead of Object.defineProperty(). This
+method accepts two arguments: the object to work on and as object containing all
+of the property information. The keys of that second argument are property names,
+and the values are descriptor objects defining the attributes for those properties.
 
+Let's make two properties:
+*/
+
+var person1 = {};
+
+Object.defineProperties(person1, {
+	//data property store data
+	_name: {
+		value: "Nicholas",
+		enumerable: true,
+		configurable: true,
+		writable: true
+	},
+
+	//accessor property
+	name: {
+		get: function(){
+			console.log("Reading name...");
+			return this._name;
+		},
+		set: function(value){
+			console.log("Setting name to %s", value);
+			this._name = value;
+		},
+		enumerable: true,
+		configurable: true
+	}
+});
+
+/*
+This example defines _name as a data property to contain information and name
+as accessor property. You can define any number of properties using Object.defineProperties();
+you can even change existing properties and create new one at the same time.
+The effect is the same as calling Object.defineProperty multiple times.
+*/
 
 
 
