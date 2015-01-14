@@ -422,6 +422,110 @@ Note: Nonwriteble properties throw an error in strict mode when you try to chang
 the value.
 */
 
+/*
+Now, some of the good stuff, Accessor Property Attributes, finally!
+
+Accessor properties also have two additional attributes, and I'm not talking about
+the [[Writable]] and [[Value]] attibutes, Accessor Properties doen't need these,
+there's no need to store values.
+Accessor Properties have... Wait for it... [[GET]] & [[SET]] (YAY!)
+That's right motherfuckers, something that you're kinda used to, getters and setters,
+I just love those little guys!
+
+The advantage of using acessor property attributes instead of object literal notation
+to define acessor properties is that you can also define those properties on existing
+objects. if you want to use object literal notation, you have to define accessor properties
+when you create the object.
+
+As with data properties, you can also specify whether accesor properties are
+configurable or enumerable. Let's take a look:
+*/
+
+var person1 = {
+	_name: "Nicholas",
+
+	get name(){
+		console.log("Reading name...");
+		return this._name;
+	},
+
+	set name(value){
+		console.log("Setting name to %s", value);
+		this._name = value;
+	}
+};
+
+console.log(person1.name); //-> Reading name \n Nicholas
+person1.name = "Alfred"; // -> Setting name to Alfred
+
+//DAMN
+
+//This code can also be written as follows:
+
+var person1 = {
+	_name: "Nicholas"
+};
+
+Object.defineProperty(person1, "name", {
+	get: function(){
+		console.log("Reading name...");
+		return this._name;
+	},
+
+	set: function(value){
+		console.log("Setting name to %s", value);
+		this._name = value;
+	},
+
+	enumerable: true,
+	configurable: true
+});
+
+console.log(person1.name); //-> Reading name \n Nicholas
+person1.name = "Alfred"; // -> Setting name to Alfred
+
+/*
+Notice that the get and set keys on the object passed in the Object.defineProperty()
+are data properties that contain a function. You can't use object literal accessor
+format here.
+Setting the other attributes ([[Enumerable]] and [[Configurable]]) allows you
+to change how the accessor property works. For example, you can create a
+nonconfigurable, nonenumerable, nonwritable property like this:
+*/
+
+var person1 = {
+	_name: "Nicholas"
+};
+
+Object.defineProperty(person1, "name", {
+	get: function(){
+		console.log("Reading name");
+		return this._name;
+	}
+});
+
+console.log("name" in person1); // -> true
+console.log(person1.propertyIsEnumerable("name")); // -> false
+
+var res = delete person1.name;
+console.log(res); // -> false;
+
+person1.name = "Bob";
+console.log(person1.name); // -> Reading name \n Nicholas
+
+/*
+See? in this code the name property is an acessor property with only a getter.
+There is no setter or any other attributes to explicitly set to true, so the value
+can be read but not changed.
+
+Note: As with accessor properties defined via object literal notation, an
+accessor property without a setter throws an error in strict mode when you try
+to change the value. In nonstrict mode, the operation silently fails.
+Attempting to read an accessor property that has only a setter defined always
+returns undefined.
+*/
+
+
 
 
 
