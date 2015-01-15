@@ -600,6 +600,101 @@ console.log(descriptor); /* ->
   enumerable: true,
   configurable: true } */
 
+console.log("\n----------------------- PREVENTING OBJECT MODIFICATION -----------------------\n");
+
+/*
+Objects, just like properties, have internal attributes that govern their behavior.
+One of these attributes is [[Extensible]], which is a Boolean value indicating
+if the object itself can be modified. By default, all objects that you create are
+extensible, meaning new properties can be added to the object at any time.
+
+By Setting [[Extensible]] to false, you can prevent new properties from being add
+to an object. There are three different ways to accomplish this.
+
+Let's go people:
+
+First Way -
+
+Object.preventExtensions(). This method accepts a single argument, which is the
+object you want to make nonextensible. Once you use this method on an object, you'll
+never be able to add any new properties again. You can check the value of [[Extensible]]
+by using Object.isExtensible(). The following code shows examples of both methods at work.
+*/
+
+var person1 = {
+	name: "Nicholas"
+};
+
+console.log(Object.isExtensible(person1)); // -> true;
+Object.preventExtensions(person1);
+
+console.log(Object.isExtensible(person1)); // -> false;
+
+person1.sayName = function(){
+	console.log(this.name);
+};
+
+console.log("sayName" in person1); // -> false
+
+/* Sweet huh?
+
+Note: Yeah, you probably already know, in strict mode addind something to a
+nonextensible object will throw an error, keep it in mind
+*/
+
+/*
+Second Way - 
+
+The second way to create a nonextensible object is to "seal" the object. A sealed
+onject is nonextensible, and all of its properties are nonconfigurable. That means
+not only can you not add new properties, but also you can't remove properties or
+change their type (from data to accessor), If an object is sealed, you can only read
+or write to it's properties.
+You can use the Object.seal() method, same deal here, it accepts the object and,
+BANG, it's done.
+Let's see this bad boy:
+*/
+
+var person1 = {
+	name: "I'm tired of being Nicholas"
+};
+
+console.log(Object.isExtensible(person1)); // -> true
+console.log(Object.isSealed(person1)); // -> false
+
+Object.seal(person1);
+
+console.log(Object.isExtensible(person1)); // -> false
+console.log(Object.isSealed(person1)); // -> true
+
+person1.sayName = function(){
+	console.log(this.name);
+};
+
+console.log("sayName" in person1); // -> false
+
+person1.name = "YES, FINALLY I'M GONNA GET A NEW NAME...";
+
+console.log(person1.name); // -> YES, FINALLY I'M GONNA GET A NEW NAME...
+
+var result = delete person1.name;
+console.log(result); // -> false
+
+console.log(Object.getOwnPropertyDescriptor(person1, "name").configurable); //-> false
+
+/*
+See? I sealed this bitch, I can still read or write, but I can't delete or add!
+Pretty cool huh? This is the JavaScript's way of giving you the same measure
+of control without classes.
+
+Note: Be sure to use strict mode with sealed objects so yo'll get an error when
+comeone tries to use the object incorrectly. (I don't even know how to to this
+strict bullshit mode)
+ */
+
+
+
+
 
 
 
