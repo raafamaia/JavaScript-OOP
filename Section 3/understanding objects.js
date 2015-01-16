@@ -1,3 +1,5 @@
+//'use strict';
+
 /* Hey, section 3 starts here
 
 Even  though there are a number of built-in reference types in JavaScript, you
@@ -613,7 +615,7 @@ to an object. There are three different ways to accomplish this.
 
 Let's go people:
 
-First Way -
+*/console.log("\nFirst Way - Preventing Extensions\n");/*
 
 Object.preventExtensions(). This method accepts a single argument, which is the
 object you want to make nonextensible. Once you use this method on an object, you'll
@@ -643,7 +645,7 @@ nonextensible object will throw an error, keep it in mind
 */
 
 /*
-Second Way - 
+*/console.log("\nSecond Way - Sealing Objects\n");/*
 
 The second way to create a nonextensible object is to "seal" the object. A sealed
 onject is nonextensible, and all of its properties are nonconfigurable. That means
@@ -692,6 +694,57 @@ comeone tries to use the object incorrectly. (I don't even know how to to this
 strict bullshit mode)
  */
 
+console.log("\nLast Way - Freezing Objects\n");
+
+/*
+
+The last way to create a nonextensible object is to freeze those motherfucker.
+If an object is frozen, it become a sealed read-only object. And you can't unfrozen an
+object.
+
+You can freeze an object with Object.freeze(), and you knwo the drill, only argument,
+the object.
+
+So:
+*/
+
+var person1 = {
+	name : "Nicholas"
+};
+
+console.log(Object.isExtensible(person1)); // -> true
+console.log(Object.isSealed(person1)); // -> false
+console.log(Object.isFrozen(person1)); // -> false
+
+Object.freeze(person1);
+
+console.log(Object.isExtensible(person1)); // -> false
+console.log(Object.isSealed(person1)); // -> true
+console.log(Object.isFrozen(person1)); // -> true
+
+person1.sayName = function(){
+	console.log(this.name);
+};
+
+console.log("sayName" in person1); // -> false
+
+person1.name = "Greg";
+console.log(person1.name); // -> Nicholas
+
+var res = delete person1.name;
+console.log(res); // -> false
+
+var descriptor = Object.getOwnPropertyDescriptor(person1, "name");
+console.log(descriptor); /* ->
+{ value: 'Nicholas',
+  writable: false,
+  enumerable: true,
+  configurable: false }
+*/
+
+/*
+Freeze! Halt or I`ll shoot!
+*/
 
 
 
