@@ -59,7 +59,7 @@ with the new one.
 
 console.log("\n----------------------- DETECTING PROPERTIES -----------------------\n");
 
-/* 
+/*
 Properties come and go, sometimes it's necessary to check whether a property even
 exists in the object.
 */
@@ -744,6 +744,10 @@ console.log(descriptor); /* ->
 
 /*
 Freeze! Halt or I`ll shoot!
+
+Note: Frozen objects are simply snapshots of an object at a particular point in
+time. They are limited use and should be used rarely. As with all nonextensible
+objects, you should use strict mode with frozen objects.
 */
 
 
