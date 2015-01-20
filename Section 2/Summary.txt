@@ -1,0 +1,8 @@
+Summary
+
+JavaScript functions are unique in that they are also objects, meaning they can be accessed, copied, overwritten, and generally treated just
+like any other object value. The biggest difference between a JavaScript function and other objects is a special internal property, [[Call]], which contains the execution instructions for the function. The typeof opera- tor looks for this internal property on an object, and if it finds it, returns "function".
+There are two function literal forms: declarations and expres- sions. Function declarations contain the function name to the right of the function keyword and are hoisted to the top of the context in which they are defined. Function expressions are used where other values can also be used, such as assignment expressions, function parameters, or the return value of another function.
+Because functions are objects, there is a Function constructor. You
+can create new functions with the Function constructor, but this isn’t gen- erally recommended because it can make your code harder to understand and debugging much more difficult. That said, you will likely run into its usage from time to time in situations where the true form of the function isn’t known until runtime.
+You need a good grasp of functions to understand how object- oriented programming works in JavaScript. Because JavaScript has no concept of a class, functions and other objects are all you have to work with to achieve aggregation and inheritance.
