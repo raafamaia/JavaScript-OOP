@@ -16,7 +16,7 @@ As we learned, prototype properties are automatically available on objects insta
 which is a form of inheritance. The object instances inherit properties from the
 prototype. Because the prorotype is also an object, it has its own prototype and
 inherits properties from that. This is the prototype chain:
-An bject inherits from its prototype, while that prototype in turn inherits from
+An object inherits from its prototype, while that prototype in turn inherits from
 its prototype, and so on.
 
 All objects, including those you define yourself, automatically inherit from Object
@@ -140,6 +140,65 @@ console.log(message) // -> Book = [Book The Principles of Object-Oriented Javasc
 Much better.
 But you usually don't need to worry about making your own toString(), but it's cool
 to know that YOU CAN.
+*/
+
+console.log("\n\t• Modifying Object.prototype\n");
+
+/*
+All objects inherit from Object.prototype by default, so changes to Object.prototype
+affect all object. That`s a very dangerous situation. I already told you nigga
+Take a look at this fucked up shit:
+*/
+
+Object.prototype.add = function(value){
+	return this + value;
+};
+
+var book = {
+	title: "The Principles of Object-Oriented JavaScript"
+};
+
+//in a web browser
+//You can't compile this shit here, I`m gonna leave this commented
+//console.log(document.add(true));// -> "[object HTMLDocument]true"
+//console.log(window.add(5)); // -> "[object Window]true"
+/*
+Adding  Object.prototype.add() causes all objects to have an add() method,
+whether or not this makes fucking sense.
+
+Another aspect of this problem involver adding enumarable properties to
+Object.prototype. In the previous example, Object.prototype.add() is an enumerable
+property, which means it will show up when you use a for-in loop, such as:
+*/
+
+var empty = {};
+
+for(var property in empty){
+	console.log(property); // -> add
+}
+
+/*
+Here, an empty object will still output "add" as a property because it exists on
+the rpototype and is enumerable. Given how often the for-in construct is used
+in JavaScript, moidfying Object.prototype with enumerable properties has the
+potential to affect a lot of code.
+For this reason, Douglas Crockford recommends using hasOwnProperty() in for-in
+loops all the time, like:
+*/
+
+var empty = {};
+
+for(var property in empty){
+	if(empty.hasOwnProperty(property)){
+		console.log(property); // Nothing.
+	}
+}
+
+/*
+While this approach is effective against possible unwanted prototype properties,
+it also limits the use of for-in to only own properties, which may or may not
+be what you want. Your best bet for the most flexibility is to not modiify
+Object.prototype, never.
 */
 
 
