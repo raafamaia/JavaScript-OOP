@@ -264,15 +264,3 @@ constructor in the global scope. All instances of Person end up sharing the age
 variable, so changing the value with one instance automatically affects the
 other instance.
 */
-
-console.log("\n\t• Mixins\n");
-
-/*
-
-*/
-
-
-
-
-
-

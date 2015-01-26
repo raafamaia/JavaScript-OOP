@@ -1,0 +1,8 @@
+Summary
+
+There are many different ways to create and compose objects in Java- Script. While JavaScript does not include the formal concept of private properties, you can create data or functions that are accessible only from within an object. For singleton objects, you can use the module pattern to hide data from the outside world. You can use an immediately invoked function expression (IIFE) to define local variables and functions that are accessible only by the newly created object. Privileged methods are methods on the object that have access to private data. You can also create constructors that have private data by either defining variables in the constructor function or by using an IIFE to create private data that
+is shared among all instances.
+Mixins are a powerful way to add functionality to objects while avoid-
+ing inheritance. A mixin copies properties from one object to another
+so that the receiving object gains functionality without inheriting from the supplying object. Unlike inheritance, mixins do not allow you to iden- tify where the capabilities came from after the object is created. For this reason, mixins are best used with data properties or small pieces of func- tionality. Inheritance is still preferable when you want to obtain more functionality and know where that functionality came from.
+Scope-safe constructors are constructors that you can call with or without new to create a new object instance. This pattern takes advantage of the fact that this is an instance of the custom type as soon as the con- structor begins to execute, which lets you alter the constructor’s behavior depending on whether or not you used the new operator.
