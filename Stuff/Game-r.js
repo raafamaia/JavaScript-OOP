@@ -91,6 +91,10 @@ Character.prototype = {
 			}
 		}
 		return message;
+	},
+	stats: function(){
+		var message = this.name + " stats: \nhp - " + this.hp;
+		return message;
 	}
 };
 
@@ -110,8 +114,8 @@ Ogre.prototype = subclassOf(Character);
 
 var defaultWeapon = new Weapon("Sword", 5, 15);
 var defaultShield = new Shield("Shield", 5, 5);
-var ogre = new Ogre("bob", 200);
-var player = new Player("Jab", 200, defaultWeapon, defaultShield);
+var ogre = new Ogre("Ogre", 200);
+var player = new Player("You", 200, defaultWeapon, defaultShield);
 
 //------------------------------------------------------------------------------
 
@@ -124,7 +128,8 @@ rl.on('line', function(line) {
     switch(line){
 	  	case "1":
 	  		console.log(player.attack(ogre));
-	  		//console.log(player.hp);
+	  		console.log(player.stats());
+	  		console.log(ogre.stats());
 	  		break;
 	  	// case "2":
 	  	// 	codeninja.playCards([Math.floor(Math.random() * packCards.values.length)]);
