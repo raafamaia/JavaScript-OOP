@@ -24,6 +24,8 @@ function subclassOf(base) {
 }
 function _subclassOf() {};
 
+//------------------------------------------------------------------------------
+
 function Equipment(name, resistance){
 	this.name = name;
 	this.resistance = resistance;
@@ -40,6 +42,8 @@ function Shield(name, resistance, defense){
 	this.defense = defense;
 }
 Shield.prototype = subclassOf(Equipment);
+
+//------------------------------------------------------------------------------
 
 function Character(name, hp, weapon, shield, strength, defense){
 	this.name = name;
@@ -66,6 +70,7 @@ Character.prototype = {
 			+ ((target.shield === undefined) ? 0 : target.shield.defense));
 
 			target.lostHP(dmg);
+			return target.name + " received " + dmg + " damage";
 		}
 	},
 
@@ -89,8 +94,6 @@ Character.prototype = {
 	}
 };
 
-var defaultWeapon = new Weapon("Sword", 5, 15);
-var defaultShield = new Shield("Shield", 5, 5);
 
 function Player(){
 	Character.apply(this, arguments);
@@ -102,12 +105,45 @@ function Ogre(){
 }
 Ogre.prototype = subclassOf(Character);
 
+
+//------------------------------------------------------------------------------
+
+var defaultWeapon = new Weapon("Sword", 5, 15);
+var defaultShield = new Shield("Shield", 5, 5);
 var ogre = new Ogre("bob", 200);
 var player = new Player("Jab", 200, defaultWeapon, defaultShield);
+
+//------------------------------------------------------------------------------
+
+function Main(){
+var readline = require('readline');
+var rl = readline.createInterface(process.stdin, process.stdout);
+rl.setPrompt("1 - Attack \n2 - Play Cards\n");
+rl.prompt();
+rl.on('line', function(line) {
+    switch(line){
+	  	case "1":
+	  		console.log(player.attack(ogre));
+	  		//console.log(player.hp);
+	  		break;
+	  	// case "2":
+	  	// 	codeninja.playCards([Math.floor(Math.random() * packCards.values.length)]);
+	  	// 	rl.close();
+	  	// 	break;
+	  	default:
+	  		console.log("Opção Inválida");
+	  }
+
+}).on('close',function(){
+    process.exit(0);
+});
+}
+
+Main();
 
 //console.log(player.toString());
 //console.log(ogre.toString());
 
 
-player.attack(ogre);
-console.log(ogre.hp)
+// console.log(player.attack(ogre));
+// console.log(ogre.hp)
