@@ -26,10 +26,12 @@ function _subclassOf() {};
 
 //------------------------------------------------------------------------------
 
-function Equipment(name, resistance){
-	this.name = name;
-	this.resistance = resistance;
-}
+//function Equipment(name, resistance){
+//	this.name = name;
+//	this.resistance = resistance;
+//}
+//
+var Equipment = require('./Equipment.js');
 
 function Weapon(name, resistance, attack){
 	Equipment.call(this, name, resistance);
