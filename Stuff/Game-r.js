@@ -24,9 +24,22 @@ function subclassOf(base) {
 }
 function _subclassOf() {};
 
-function Equipment(){
-
+function Equipment(name, resistance){
+	this.name = name;
+	this.resistance = resistance;
 }
+
+function Weapon(name, resistance, attack){
+	Equipment.call(this, name, resistance);
+	this.attack = attack;
+}
+Weapon.prototype = subclassOf(Equipment);
+
+function Shield(name, resistance, defense){
+	Equipment.call(this, name, resistance);
+	this.defense = defense;
+}
+Shield.prototype = subclassOf(Equipment);
 
 function Character(name, hp, weapon, shield, strength, defense){
 	this.name = name;
@@ -54,21 +67,47 @@ Character.prototype = {
 
 			target.lostHP(dmg);
 		}
+	},
+
+	toString: function(){
+		var message = "Hey, I'm the brave " + this.name + "\nYou better fear me fool...\n"
+		+ "Why? Huh, just take a look:\n";
+
+		for (property in this){
+			if (this.hasOwnProperty(property)){
+				message += "\n" + property + ": ";
+				if (this[property] instanceof Equipment){
+					for(prop in this[property]){
+						message += prop + " - " + this[property][prop] + "\n\t\t\t\t";
+					}
+				} else {
+					message += this[property];
+				}
+			}
+		}
+		return message;
 	}
 };
 
-function Player(name, hp){
-	Character.call(this, name, hp);
+var defaultWeapon = new Weapon("Sword", 5, 15);
+var defaultShield = new Shield("Shield", 5, 5);
+
+function Player(){
+	Character.apply(this, arguments);
 }
 Player.prototype = subclassOf(Character);
 
-function Ogre(name, hp){
-	Character.call(this, name, hp)
+function Ogre(){
+	Character.apply(this, arguments);
 }
 Ogre.prototype = subclassOf(Character);
 
 var ogre = new Ogre("bob", 200);
-var player = new Player("Jab", 200);
+var player = new Player("Jab", 200, defaultWeapon, defaultShield);
+
+//console.log(player.toString());
+//console.log(ogre.toString());
+
 
 player.attack(ogre);
-console.log(ogre.hp);
+console.log(ogre.hp)
